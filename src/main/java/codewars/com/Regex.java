@@ -56,4 +56,24 @@ public class Regex {
                 .collect(Collectors.joining(" "))
                 .replaceAll("(\\p{P})(ay)", "$1");
     }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5277c8a221e209d3f6000b56">Valid Braces</a>
+     * @param s parentheses, brackets and curly braces: ()[]{}
+     * @return if the order of the braces is valid
+     */
+    public static boolean isValid(String s) {
+        int x = s.length();
+        s = s.replaceAll("\\(\\)|\\[\\]|\\{\\}", "");
+        return s.length() != x && (s.length() == 0 || isValid(s));
+    }
+
+    public static boolean isValid1(String braces) {
+        String in = braces;
+        String out = braces;
+        while (!(out = out.replaceAll("(\\Q()\\E)|(\\Q[]\\E)|(\\Q{}\\E)", "")).equals(in)) {
+            in = out;
+        }
+        return in.equals(""); // your code here
+    }
 }
