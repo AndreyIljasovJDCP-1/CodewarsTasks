@@ -10,7 +10,7 @@ import java.math.BigInteger;
 public class BigIntegerSum {
 
     public static void main(String[] args) {
-
+        System.out.println(sum(4));
     }
     /**
      * S(1) + S(2) + ... + S(N) = (N*(N+1)*(N+2))/6
@@ -76,6 +76,20 @@ public class BigIntegerSum {
             default:
                 return -1;
         }
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/62aab749ee78500065e39c00">
+     *     Sum of Odd Triangle Rows
+     *     </a>
+     * @param n row of triangle
+     * @return sum
+     */
+    public static BigInteger sum(int n) {
+        BigInteger number = new BigInteger(String.valueOf(n));
+        BigInteger sumSeq = number.add(BigInteger.ONE).multiply(number).divide(BigInteger.TWO);
+        System.out.println(sumSeq);
+        return sumSeq.multiply(sumSeq);//?!
     }
 
     private static long sumSquares(int n) {
