@@ -51,4 +51,51 @@ public class Combinatorics {
             }
         }
     }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/555624b601231dc7a400017a">Josephus Survivor</a>
+     * @param n total
+     * @param k step
+     * @return last standing
+     */
+    public static int josephusSurvivor(final int n, final int k) {
+        if (n == 1) return 1;
+        return (josephusSurvivor(n - 1, k) + k - 1) % n + 1;
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5550d638a99ddb113e0000a2">Josephus Permutation</a>
+     * @param items initial
+     * @param k step
+     * @return sequence in order out
+     * @param <T> any type
+     */
+    public static <T> List<T> josephusPermutationBest(final List<T> items, final int k) {
+        if (items.isEmpty()) return List.of();
+        List<T> result = new ArrayList<>();
+        int index = 0;
+        while (items.size() > 0) {
+            index = (index + k - 1) % items.size();
+            result.add(items.remove(index));
+        }
+        return result;
+    }
+
+    public static <T> List<T> josephusPermutation(final List<T> items, final int k) {
+        if (items.isEmpty()) return List.of();
+        List<T> result = new ArrayList<>();
+        boolean[] death = new boolean[items.size()];
+        int count = 0;
+        while (result.size() < items.size()) {
+            for (int i = 0; i < items.size(); i++) {
+                if (!death[i]) count++;
+                if (count == k) {
+                    death[i] = true;
+                    result.add(items.get(i));
+                    count = 0;
+                }
+            }
+        }
+        return result;
+    }
 }
