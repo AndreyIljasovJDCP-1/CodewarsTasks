@@ -111,4 +111,31 @@ public class Arrays {
             }
         }
     }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/521c2db8ddc89b9b7a0000c1">Snail Sort</a>
+     * @param array nxn
+     * @return array in a clockwise snail-shell pattern.
+     */
+    public static int[] snail(int[][] array) {
+        if (array.length == 0 || array[0].length == 0) return new int[] {};
+        int n = array.length;
+        int[] result = new int[n * n];
+        int index = 0;
+        int up = 0;
+        int down = n - 1;
+        int left = 0;
+        int right = n - 1;
+        while (index < n * n) {
+            for (int i = up; i <= right; i++) result[index++] = array[up][i];
+            up++;
+            for (int i = up; i <= down; i++) result[index++] = array[i][right];
+            right--;
+            for (int i = right; i >= left; i--) result[index++] = array[down][i];
+            down--;
+            for (int i = down; i >= up; i--) result[index++] = array[i][left];
+            left++;
+        }
+        return result;
+    }
 }

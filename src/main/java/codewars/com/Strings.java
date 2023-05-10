@@ -1,9 +1,7 @@
 package codewars.com;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,10 +10,12 @@ public class Strings {
 
     public static void main(String[] args) {
         System.out.println(checkString("МАКАРОШКИ", "АКРИ"));
+        System.out.println(stripComments("apples, pears # and bananas\ngrapes\t\nbananas !apples", new String[]{"#", "!"}));
     }
 
     /**
-     * Check if you can to build the search from text only in order of letters
+     * Check if you can build the "search" from text in order of letters only
+     *
      * @param text
      * @param search
      * @return
@@ -98,4 +98,28 @@ public class Strings {
         return s.chars().map(c -> c - 48).sum();
     }
 
+    /**
+     * @see <a href="https://www.codewars.com/kata/51c8e37cee245da6b40000bd">Strip Comments</a>
+     * @param text
+     * @param commentSymbols
+     * @return text without comments
+     */
+    public static String stripCommentsBest(String text, String[] commentSymbols) {
+        return text.replaceAll(" *([" + String.join("", commentSymbols) + "].*)?(\n|$)", "$2");
+    }
+
+    public static String stripComments(String text, String[] commentSymbols) {
+        System.out.println(text);
+        List<String> result = new ArrayList<>();
+        for (String words : text.split("\n")) {
+            for (String comment : commentSymbols) {
+                if (words.contains(comment)) {
+                    words = words.substring(0, words.indexOf(comment));
+                }
+            }
+            result.add(words.stripTrailing());
+        }
+        System.out.println(result);
+        return String.join("\n", result);
+    }
 }
