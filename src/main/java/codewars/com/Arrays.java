@@ -1,6 +1,8 @@
 package codewars.com;
 
 import java.util.Comparator;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -137,5 +139,78 @@ public class Arrays {
             left++;
         }
         return result;
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5270d0d18625160ada0000e4">Greed is Good</a>
+     * @param dice five six-sided dice
+     * @return sum points
+     */
+    public static int greedyBest(int[] dice) {
+        int n[] = new int[7];
+        for (int d : dice) n[d]++;
+        return n[1] / 3 * 1000
+                + n[1] % 3 * 100
+                + n[2] / 3 * 200
+                + n[3] / 3 * 300
+                + n[4] / 3 * 400
+                + n[5] / 3 * 500
+                + n[5] % 3 * 50
+                + n[6] / 3 * 600;
+    }
+
+    public static int greedy(int[] dice) {
+        var map =
+                java.util.Arrays.stream(dice)
+                        .boxed()
+                        .collect(Collectors.toMap(Function.identity(), s -> 1, Integer::sum));
+        int res = 0;
+        for (Map.Entry<Integer, Integer> kv : map.entrySet()) {
+            int key = kv.getKey();
+            int value = kv.getValue();
+            if (key == 1) {
+                res += value / 3 * 1000 + value % 3 * 100;
+            } else if (key == 5) {
+                res += value / 3 * 500 + value % 3 * 50;
+            } else {
+                res += value / 3 * key * 100;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5ce399e0047a45001c853c2b">
+     *     Sums of Parts of array</a>
+     * @param ls array
+     * @return sum parts
+     */
+    public static int[] sumParts(int[] ls) {
+        int[] res = new int[ls.length + 1];
+        int sum = java.util.Arrays.stream(ls).sum();
+        for (int i = 0; i < ls.length; i++) {
+            res[i] = sum;
+            sum -= ls[i];
+        }
+        return res;
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/514b92a657cdc65150000006">
+     * Multiples of 3 or 5</a>
+     * @param number input
+     * @return sum
+     */
+    public static int solution(int number) {
+        if (number < 1) return 0;
+        return IntStream.range(3, number).filter(x -> multiFive(x) || multiThree(x)).sum();
+    }
+
+    private static boolean multiThree(int number) {
+        return Integer.toString(number).chars().map(c -> c - 48).sum() % 3 == 0;
+    }
+
+    private static boolean multiFive(int number) {
+        return (number % 10) == 0 || (number % 10) == 5;
     }
 }

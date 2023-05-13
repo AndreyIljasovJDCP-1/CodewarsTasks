@@ -122,4 +122,30 @@ public class Strings {
         System.out.println(result);
         return String.join("\n", result);
     }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/559536379512a64472000053">
+     *     Playing with passphrases</a>
+     * @param s text
+     * @param n offset
+     * @return encoding string
+     */
+    public static String playPass(String s, int n) {
+        s = s.toUpperCase();
+        StringBuilder res = new StringBuilder();
+        int index = 0;
+        // A-Z=>65-90 0-9=>48-57
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                res.append((char) 57 - c);
+            } else if (Character.isLetter(c)) {
+                String letter = Character.toString((c + n - 65) % 26 + 65);
+                res.append(index % 2 == 0 ? letter : letter.toLowerCase());
+            } else {
+                res.append(c);
+            }
+            index++;
+        }
+        return res.reverse().toString();
+    }
 }
