@@ -49,4 +49,12 @@ public class Time {
         }
         return String.join("", result);
     }
+
+    public static int day(double content, double percent, double limit, double fullContent) {
+        if (content <= fullContent * limit / 100) return 0;
+        return 1 + day(content * (1 - percent / 100), percent, limit, fullContent);
+    }
+    /*String dateAndTime =
+    new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(Calendar.getInstance().getTime());
+System.out.println(dateAndTime);*/
 }

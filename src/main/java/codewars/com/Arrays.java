@@ -1,18 +1,55 @@
 package codewars.com;
 
-import java.util.Comparator;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-/**
- * @see <a href="https://www.codewars.com/kata/52b7ed099cdc285c300001cd">
- *     Sum of Intervals
- *     </a>
- */
-public class Arrays {
 
+public class Arrays {
+    /**
+     * @see <a href="https://www.codewars.com/kata/55e86e212fce2aae75000060">Integers: Recreation Two
+     *     </a>
+     */
+    public static List<long[]> prod2Sum(long a, long b, long c, long d) {
+        // a, b, c, d. Например, 2 — это bc — ad, 263 — это ac + bd, 23 — это bd — ac, 262 — это ad + bc
+        // [103, 242], [122, 233]построены из a, b, c, d?
+        // На мой взгляд, разложение должно исходить из чисел a, b, c, d.
+        // Например, 2 — это bc — ad, 263 — это ac + bd, 23 — это bd — ac, 262 — это ad + bc.
+        // Все это получается из разложения (axa + bxb)x(cxc + dxd)?
+        // Или вы сделали прямое разложение квадратного произведения (axa + bxb)x(cxc + dxd)
+        // , как это было сделано в одном из моих других ката?
+
+        long multiSquares = (a * a + b * b) * (c * c + d * d);
+        Set<Long> ranges = new TreeSet<>();
+        ranges.add(a * d + b * c);
+        ranges.add(a * c + b * d);
+
+        ranges.add(Math.abs(a * d - b * c));
+        ranges.add(Math.abs(b * c - a * d));
+
+        ranges.add(Math.abs(a * c - b * d));
+        ranges.add(Math.abs(b * d - a * c));
+
+        System.out.println(multiSquares);
+        System.out.println(ranges);
+        if (multiSquares % 4 == 3) return List.of(new long[] {});
+        List<long[]> result = new ArrayList<>();
+        for (Long square : ranges) {
+            var remainder = (long) Math.sqrt(multiSquares - square * square);
+            if (ranges.contains(remainder) && square <= remainder) {
+                result.add(new long[] {square, remainder});
+            }
+        }
+        result.forEach(s -> System.out.println(java.util.Arrays.toString(s)));
+        return result;
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/52b7ed099cdc285c300001cd">
+     *     Sum of Intervals
+     *     </a>
+     */
     public static int sumIntervals(int[][] intervals) {
         // Arrays.sort(intervals, Comparator.comparing(a -> a[0]));
         // Arrays.sort(intervals, (a, b) -> Integer.compare(b[1], a[1]));
@@ -212,5 +249,22 @@ public class Arrays {
 
     private static boolean multiFive(int number) {
         return (number % 10) == 0 || (number % 10) == 5;
+    }
+
+    /**
+     * SWAP with XOR void если в том же массиве
+     *
+     * @param arr массив
+     * @param indexA 1-й элемент
+     * @param indexB 2-й элемент
+     */
+    public static int[] swap(int[] arr, int indexA, int indexB) {
+        arr[indexA] ^= arr[indexB];
+        System.out.println(java.util.Arrays.toString(arr));
+        arr[indexB] ^= arr[indexA];
+        System.out.println(java.util.Arrays.toString(arr));
+        arr[indexA] ^= arr[indexB];
+        System.out.println(java.util.Arrays.toString(arr));
+        return arr;
     }
 }

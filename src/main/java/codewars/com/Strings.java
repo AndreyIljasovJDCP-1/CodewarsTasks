@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Strings {
@@ -147,5 +148,127 @@ public class Strings {
             index++;
         }
         return res.reverse().toString();
+    }
+
+    /**
+     * An anagram is the result of rearranging the letters of a word to produce a new word (see
+     * wikipedia).
+     *
+     * <p>Note: anagrams are case insensitive
+     *
+     * <p>Complete the function to return true if the two arguments given are anagrams of each other;
+     * return false otherwise.
+     *
+     * <p>Examples "foefet" is an anagram of "toffee"
+     *
+     * <p>"Buckethead" is an anagram of "DeathCubeK"
+     */
+    public static boolean isAnagram(String test, String original) {
+        test = Arrays.stream(test.toLowerCase().split("")).sorted().collect(Collectors.joining());
+        original =
+                Arrays.stream(original.toLowerCase().split("")).sorted().collect(Collectors.joining());
+
+        return test.equals(original);
+    }
+
+    public static boolean isAnagram1(final String test, final String original) {
+        return sortedLowercase(test).equals(sortedLowercase(original));
+    }
+
+    private static String sortedLowercase(final String s) {
+        return s.toLowerCase()
+                .chars()
+                .sorted()
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+    }
+
+    public static boolean isAnagram2(String a, String b) {
+        if (a == null || b == null || a.length() != b.length()) return false;
+        if (a == b) return true;
+
+        return Arrays.equals(
+                a.toLowerCase().chars().sorted().toArray(), b.toLowerCase().chars().sorted().toArray());
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5375f921003bf62192000746">
+     *     Word a10n (abbreviation)</a>
+     * @param string
+     * @return
+     */
+    static String abbreviate(String string) {
+        for (var s : string.split("[^a-zA-Z]")) {
+            string =
+                    string.replaceFirst(
+                            s,
+                            s.length() > 3
+                                    ? "" + s.charAt(0) + (s.length() - 2) + s.substring(s.length() - 1)
+                                    : s);
+        }
+        return string;
+    }
+
+    public static String myabbreviate(String string) {
+        StringBuilder result = new StringBuilder();
+        if (string.isEmpty()) return null;
+        // String result = "";
+        String word = "";
+        boolean oneWord = true;
+        for (char c : string.toCharArray()) {
+
+            if (Character.isLetter(c)) {
+                word += c;
+            } else {
+                if (word.length() > 3) {
+                    result.append(encrypt(word)).append(c);
+                    word = "";
+                } else if (word.length() > 0) {
+                    result.append(word).append(c);
+                    word = "";
+                } else {
+                    result.append(c);
+                }
+                oneWord = false;
+            }
+        }
+
+        return oneWord
+                ? word.length() > 3 ? encrypt(word) : word
+                : word.length() > 3
+                ? result.append(encrypt(word)).toString()
+                : word.length() > 0 ? result.append(word).toString() : result.toString();
+    }
+
+    private static String encrypt(String word) {
+
+        return "" + word.charAt(0) + (word.length() - 2) + word.charAt(word.length() - 1);
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/58daa7617332e59593000006">Most digits</a>
+     * @param numbers
+     * @return
+     */
+    public static int findLongest(int[] numbers) {
+        int max = Integer.MIN_VALUE;
+        int longestNum = 0;
+        for (int num : numbers) {
+            if (String.valueOf(Math.abs(num)).length() > max) {
+                max = String.valueOf(num).length();
+                longestNum = num;
+            }
+        }
+        return longestNum;
+    }
+
+    public static int findLongestStream(int[] numbers) {
+        return IntStream.of(numbers)
+                .reduce(
+                        0,
+                        (a, b) ->
+                                String.valueOf(Math.abs(a)).length() >= String.valueOf(Math.abs(b)).length()
+                                        ? a
+                                        : b);
     }
 }
