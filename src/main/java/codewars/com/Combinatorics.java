@@ -98,4 +98,110 @@ public class Combinatorics {
         }
         return result;
     }
+
+    /**
+     * Сочетания. Комбинаторика. Найти все сочетания n по m
+     * Вычислить сумму сочетаний, вернуть максимально близкую <=t
+     * @param t предел
+     * @param k размер сочетания
+     * @param ls список расстояний
+     * @return
+     */
+    public static Integer chooseBestSum(int t, int k, List<Integer> ls) {
+
+        List<Integer> sumList = new ArrayList<>();
+        int[] combination = new int[k];
+        fillSumList(0, -1, k, combination, sumList, ls);
+        sumList.forEach(System.out::println);
+        return sumList.stream().filter(x -> x <= t).max(Integer::compareTo).orElse(-1);
+    }
+
+    private static void fillSumList(
+            int index, int maxUsed, int k, int[] combination, List<Integer> sumList, List<Integer> ls) {
+
+        if (index == k) {
+            System.out.println(Arrays.toString(combination));
+            sumList.add(Arrays.stream(combination).map(ls::get).sum());
+        } else {
+            for (int i = maxUsed + 1; i < ls.size(); i++) {
+                combination[index] = i;
+                fillSumList(index + 1, i, k, combination, sumList, ls);
+            }
+        }
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5254ca2719453dcc0b00027d">
+     *     So Many Permutations!
+     *     </a>
+     * @see <a href="https://www.techiedelight.com/ru/generate-permutations-string-java-recursive-iterative">
+     *     Генерировать все перестановки строки в Java — рекурсивно и итеративно
+     *     </a>
+     *
+     * @param s "ABC"
+     * @return ABC, ACB, BAC, BCA, CBA, CAB
+     */
+    public static List<String> singlePermutations(String s) {
+
+        List<String> result = new ArrayList<>();
+        String[] seq = new String[s.length()];
+        //combination(0, seq, result, s);
+        // permutations(0, s.split(""), result);
+        permutationsStr("", s, result);
+        return result.stream().distinct().collect(Collectors.toList());
+    }
+
+    // без массива, с 2 строками
+    private static void permutationsStr(String candidate, String remaining, List<String> result) {
+
+        if (remaining == null) {
+            return;
+        }
+
+        if (remaining.length() == 0) {
+            System.out.println(candidate);
+            result.add(candidate);
+        }
+
+        for (int i = 0; i < remaining.length(); i++) {
+            String newCandidate = candidate + remaining.charAt(i);
+            String newRemaining = remaining.substring(0, i) + remaining.substring(i + 1);
+            permutationsStr(newCandidate, newRemaining, result);
+        }
+    }
+
+    // Рекурсивная функция для генерации всех перестановок строки с массивом String[]
+    private static void permutations(int currentIndex, String[] chars, List<String> result) {
+        if (currentIndex == chars.length - 1) {
+            System.out.println(Arrays.toString(chars));
+            result.add(String.join("", chars));
+        }
+
+        for (int i = currentIndex; i < chars.length; i++) {
+            swap(chars, currentIndex, i);
+            permutations(currentIndex + 1, chars, result);
+            swap(chars, currentIndex, i);
+        }
+    }
+
+    private static void swap(String[] chars, int i, int j) {
+        String temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+
+    // all permutations with duplicates aaa,aab....
+    private static void combination(int index, String[] seq, List<String> result, String input) {
+        if (index == seq.length) {
+            System.out.println("вывод окончательный: " + Arrays.toString(seq));
+            result.add(String.join("", seq));
+
+        } else {
+            for (int i = 0; i < seq.length; i++) {
+                seq[index] = String.valueOf(input.charAt(i));
+                combination(index + 1, seq, result, input);
+            }
+        }
+    }
+
 }

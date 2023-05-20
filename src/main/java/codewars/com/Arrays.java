@@ -7,6 +7,39 @@ import java.util.stream.IntStream;
 
 
 public class Arrays {
+
+
+    public static void main(String[] args) {
+        System.out.println(rangeExtraction(new int[] {-3, -2, -1, 2, 10, 15, 16, 18, 19, 20}));
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/51ba717bb08c1cd60f00002f">Range Extraction</a>
+     * @param arr
+     * @return
+     */
+    public static String rangeExtraction(int[] arr) {
+        if (arr.length < 3)
+            return java.util.Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.joining());
+        int i = 0;
+        List<String> res = new ArrayList<>();
+        while (i < arr.length) {
+            int length = 0;
+            while (i + length + 1 < arr.length && arr[i + length] + 1 == arr[i + 1 + length]) {
+                length++;
+            }
+            if (length > 1) {
+                res.add(arr[i] + "-" + arr[length + i]);
+                i += length;
+            } else {
+                res.add(arr[i] + "");
+            }
+            i++;
+        }
+        System.out.println(String.join(",", res));
+        return String.join(",", res);
+    }
+
     /**
      * @see <a href="https://www.codewars.com/kata/55e86e212fce2aae75000060">Integers: Recreation Two
      *     </a>

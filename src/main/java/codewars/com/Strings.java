@@ -74,8 +74,7 @@ public class Strings {
      */
     public static char findMissingLetter(char[] array) {
         int i = 0;
-        while (array[i] - array[++i] == -1)
-            ;
+        while (array[i] - array[++i] == -1);
         return (char) (array[i] - 1);
     }
 
@@ -151,17 +150,7 @@ public class Strings {
     }
 
     /**
-     * An anagram is the result of rearranging the letters of a word to produce a new word (see
-     * wikipedia).
-     *
-     * <p>Note: anagrams are case insensitive
-     *
-     * <p>Complete the function to return true if the two arguments given are anagrams of each other;
-     * return false otherwise.
-     *
-     * <p>Examples "foefet" is an anagram of "toffee"
-     *
-     * <p>"Buckethead" is an anagram of "DeathCubeK"
+     * @see <a href="https://www.codewars.com/kata/529eef7a9194e0cbc1000255">Anagram Detection</a>
      */
     public static boolean isAnagram(String test, String original) {
         test = Arrays.stream(test.toLowerCase().split("")).sorted().collect(Collectors.joining());
@@ -264,11 +253,8 @@ public class Strings {
 
     public static int findLongestStream(int[] numbers) {
         return IntStream.of(numbers)
-                .reduce(
-                        0,
-                        (a, b) ->
-                                String.valueOf(Math.abs(a)).length() >= String.valueOf(Math.abs(b)).length()
-                                        ? a
-                                        : b);
+                .reduce(0, (a, b) -> String.valueOf(Math.abs(a)).length() >= String.valueOf(Math.abs(b)).length()
+                        ? a
+                        : b);
     }
 }
