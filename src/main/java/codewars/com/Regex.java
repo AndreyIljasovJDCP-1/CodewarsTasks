@@ -5,6 +5,29 @@ import java.util.stream.Collectors;
 
 public class Regex {
 
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/56af1a20509ce5b9b000001e">Salesman's Travel</a>
+     */
+    public static String travel(String r, String zipcode) {
+        var map =
+                Arrays.stream(r.split(","))
+                        .map(s -> s.replaceAll("(\\d+) (.*) (\\w{2}\\s\\d{5})", "$3$2/$1"))
+                        .collect(
+                                Collectors.toMap(
+                                        k -> k.substring(0, 8),
+                                        v -> v.substring(8),
+                                        (a, b) ->
+                                                a.substring(0, a.indexOf("/"))
+                                                        + ","
+                                                        + b.substring(0, b.indexOf("/") + 1)
+                                                        + a.substring(a.indexOf("/") + 1)
+                                                        + ","
+                                                        + b.substring(b.indexOf("/") + 1)));
+
+        return zipcode + ":" + map.getOrDefault(zipcode, "/");
+    }
+
     /**
      * @see <a href="https://www.codewars.com/kata/5f7c38eb54307c002a2b8cc8">
      *     Remove the parentheses

@@ -250,6 +250,20 @@ public class Arrays {
     }
 
     /**
+     * @see <a href="https://www.codewars.com/kata/57b6f5aadb5b3d0ae3000611">Length of missing
+     *     array</a>
+     */
+    public static int getLengthOfMissingArray(Object[][] arrayOfArrays) {
+        if (arrayOfArrays == null || arrayOfArrays.length == 0) return 0;
+        if (java.util.Arrays.stream(arrayOfArrays).anyMatch(a -> a == null || a.length == 0)) return 0;
+        var sorted = java.util.Arrays.stream(arrayOfArrays).mapToInt(a -> a.length).sorted().toArray();
+        for (int i = 0; i < sorted.length - 1; i++) {
+            if (sorted[i] != sorted[i + 1] - 1) return sorted[i] + 1;
+        }
+        return 0;
+    }
+
+    /**
      * @see <a href="https://www.codewars.com/kata/5ce399e0047a45001c853c2b">
      *     Sums of Parts of array</a>
      * @param ls array
@@ -282,6 +296,31 @@ public class Arrays {
 
     private static boolean multiFive(int number) {
         return (number % 10) == 0 || (number % 10) == 5;
+    }
+
+    /**
+     * Table of Multiplication
+     * @param n
+     * @return
+     */
+    public static int[][] table(int n) {
+        int[][] arr = new int[n][n];
+        IntStream.rangeClosed(1, n)
+                .forEach(i -> arr[i - 1] = IntStream.rangeClosed(1, n).map(el -> el * i).toArray());
+        for (int[] lines : arr) {
+            for (int element : lines) {
+                System.out.print(element);
+            }
+            System.out.println();
+        }
+        return arr;
+    }
+
+    public static int[][] multiplicationTable(int n) {
+
+        return IntStream.rangeClosed(1, n)
+                .mapToObj(i -> IntStream.rangeClosed(1, n).map(j -> i * j).toArray())
+                .toArray(int[][]::new);
     }
 
     /**
