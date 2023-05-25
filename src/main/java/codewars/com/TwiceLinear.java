@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 /**
  * @see <a href="https://www.codewars.com/kata/5672682212c8ecf83e000050">Twice linear</a>
