@@ -1,6 +1,7 @@
 package codewars.com;
 
 import java.util.*;
+import java.util.Arrays;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
@@ -9,7 +10,7 @@ import java.util.function.UnaryOperator;
  */
 public class CommandPattern {
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(parse("iiirjrjsdoso")));
+        System.out.println((Arrays.toString(parse("iiirjrjsdoso"))));
     }
 
 
@@ -76,18 +77,13 @@ class CommandFactory {
     }
 
     Command getCommand(String code) {
-        switch (code) {
-            case "i":
-                return new Increment();
-            case "d":
-                return new Decrement();
-            case "s":
-                return new Square();
-            case "o":
-                return new Output(result);
-            default:
-                return new Ignore();
-        }
+        return switch (code) {
+            case "i" -> new Increment();
+            case "d" -> new Decrement();
+            case "s" -> new Square();
+            case "o" -> new Output(result);
+            default -> new Ignore();
+        };
     }
 }
 
