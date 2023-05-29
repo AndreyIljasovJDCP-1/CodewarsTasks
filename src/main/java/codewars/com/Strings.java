@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static java.util.Comparator.comparingInt;
+import static java.util.Comparator.naturalOrder;
+import static java.util.stream.Collectors.*;
+
 public class Strings {
 
     public static void main(String[] args) {
@@ -31,6 +35,46 @@ public class Strings {
             System.out.println("new text: " + text);
         }
         return true;
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5629db57620258aa9d000014">Strings Mix</a>
+     * @param s1 "Are the kids at home? aaaaa fffff"
+     * @param s2 "Yes they are here! aaaaa fffff"
+     * @return "=:aaaaaa/2:eeeee/=:fffff/1:tt/2:rr/=:hh"
+     */
+    public static String mix(String s1, String s2) {
+        var map1 =
+                Arrays.stream(s1.split(""))
+                        .filter(s -> s.matches("[a-z]"))
+                        .collect(groupingBy(Function.identity(), summingInt(s -> 1)));
+        var map2 =
+                Arrays.stream(s2.split(""))
+                        .filter(s -> s.matches("[a-z]"))
+                        .collect(groupingBy(Function.identity(), summingInt(s -> 1)));
+        var mapTransform1 =
+                map1.entrySet().stream()
+                        .filter(kv -> kv.getValue() > 1)
+                        .collect(toMap(Map.Entry::getKey, kv -> "1:" + kv.getKey().repeat(kv.getValue())));
+        var mapTransform2 =
+                map2.entrySet().stream()
+                        .filter(kv -> kv.getValue() > 1)
+                        .collect(toMap(Map.Entry::getKey, kv -> "2:" + kv.getKey().repeat(kv.getValue())));
+        var result =
+                Stream.of(mapTransform1, mapTransform2)
+                        .flatMap(map -> map.entrySet().stream())
+                        .collect(
+                                toMap(
+                                        Map.Entry::getKey,
+                                        Map.Entry::getValue,
+                                        (v1, v2) ->
+                                                v1.length() == v2.length()
+                                                        ? v1.replaceAll("\\d", "=")
+                                                        : v1.length() < v2.length() ? v2 : v1));
+
+        return result.values().stream()
+                .sorted(comparingInt(String::length).reversed().thenComparing(naturalOrder()))
+                .collect(joining("/"));
     }
 
     /**
