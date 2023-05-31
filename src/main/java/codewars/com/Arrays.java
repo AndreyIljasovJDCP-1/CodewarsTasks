@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 public class Arrays {
 
+    public static Deque<Integer> deque = new ArrayDeque<>();
 
     public static void main(String[] args) {
         System.out.println(rangeExtraction(new int[] {-3, -2, -1, 2, 10, 15, 16, 18, 19, 20}));
@@ -321,6 +322,72 @@ public class Arrays {
         return IntStream.rangeClosed(1, n)
                 .mapToObj(i -> IntStream.rangeClosed(1, n).map(j -> i * j).toArray())
                 .toArray(int[][]::new);
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/645fb55ecf8c290031b779ef">Latin Squares</a>
+     * @param n
+     * @return
+     */
+    public static int[][] makeLatinSquare(int n) {
+        final int[][] latinSquare = new int[n][n];
+
+        IntStream.rangeClosed(1, n).forEach(deque::offerLast);
+        latinSquare[0] = deque.stream().mapToInt(Integer::intValue).toArray();
+        IntStream.range(1, n).forEach(i -> latinSquare[i] = generateLine());
+        print(latinSquare);
+        return latinSquare;
+    }
+
+    public static int[][] makeLatinSquareBest(int n) {
+        return IntStream.range(0, n)
+                .mapToObj(i -> IntStream.range(0, n).map(j -> (j + i) % n + 1).toArray())
+                .toArray(int[][]::new);
+    }
+
+    private static int[] generateLine() {
+        deque.offerLast(deque.pollFirst());
+        return deque.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    private static void print(int[][] arr) {
+        for (int[] lines : arr) {
+            for (int el : lines) {
+                System.out.print(el + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5a6c4086373c2e2a07000075">Invert Array Middle</a>
+     * @param n
+     * @return
+     */
+    public static int[][] invertArrayMiddle(int n) {
+        int[][] result = new int[n][n];
+        int k = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                result[i][j] = k++;
+            }
+        }
+        k = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 || i == n - 1 || k % n == 1 || k % n == 0) {
+                    result[j][i] = k;
+                }
+                k++;
+            }
+        }
+        for (int[] lines : result) {
+            for (int el : lines) {
+                System.out.print(el + " ");
+            }
+            System.out.println();
+        }
+        return result;
     }
 
     /**

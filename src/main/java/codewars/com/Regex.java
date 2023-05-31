@@ -99,4 +99,14 @@ public class Regex {
         }
         return in.equals(""); // your code here
     }
+    /**
+     * @see <a href="https://www.codewars.com/kata/526dbd6c8c0eb53254000110">Not very secure</a>
+     * @param s
+     * @return
+     */
+    public static boolean alphanumeric(String s) {
+        System.out.println(s);
+        // return s.length() != 0 && s.matches("[^\\W_]*");
+        return s.matches("\\p{Alnum}+");
+    }
 }

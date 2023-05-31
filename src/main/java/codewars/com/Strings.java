@@ -301,4 +301,22 @@ public class Strings {
                         ? a
                         : b);
     }
+
+    /**
+     * @see <a href="https://www.codewars.com/kata/5f5bc8a04e485f002d85b303">...</a>
+     * @param ip "ABCD_1111_ABCD_1111_ABCD_1111_ABCD_1111"
+     * @return " => "46" + "4" + "46" + "4" + "46" + "4" + "46" + "4" => 464464464464"
+     */
+    public static String parseIPv6(String ip) {
+        return Arrays.stream(ip.split("[^\\dA-F]"))
+                .map(
+                        s ->
+                                Arrays.stream(s.split(""))
+                                        .map(c -> Integer.parseInt(c, 16))
+                                        .mapToInt(Integer::intValue)
+                                        .sum()
+                                        + "")
+                .collect(Collectors.joining());
+    }
+
 }
