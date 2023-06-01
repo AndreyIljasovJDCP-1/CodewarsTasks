@@ -1,10 +1,25 @@
 package codewars.com;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Regex {
+    private static final String VERSION_REGEX = "^(\\d+)(?:\\.(\\d+)(?:\\.(\\d+).*)?)?$";
 
+    public static void main(String[] args) {
+
+        Matcher matcher = Pattern.compile(VERSION_REGEX).matcher("01.2545.");
+        matcher.find();
+
+        String majorGroup = matcher.group(1);
+        String minorGroup = matcher.group(2);
+        String patchGroup = matcher.group(3);
+        int major = Integer.parseInt(majorGroup);
+        int minor = minorGroup == null ? 0 : Integer.parseInt(minorGroup);
+        int patch = patchGroup == null ? 0 : Integer.parseInt(patchGroup);
+    }
 
     /**
      * @see <a href="https://www.codewars.com/kata/56af1a20509ce5b9b000001e">Salesman's Travel</a>
