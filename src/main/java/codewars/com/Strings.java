@@ -319,4 +319,18 @@ public class Strings {
                 .collect(Collectors.joining());
     }
 
+    /**
+     * @see <a href="https://www.codewars.com/kata/5727bb0fe81185ae62000ae3">Backspaces in string</a>
+     * @param s
+     * @return
+     */
+    public static String cleanString(String s) {
+        while (s.contains("#")) {
+            s = s.replaceAll("[^#]#", "");
+            s = s.replaceAll("^#*", "");
+            System.out.println(s);
+        }
+        return s;
+    }
+
 }

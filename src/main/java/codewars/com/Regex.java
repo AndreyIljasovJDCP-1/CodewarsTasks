@@ -20,7 +20,19 @@ public class Regex {
         int minor = minorGroup == null ? 0 : Integer.parseInt(minorGroup);
         int patch = patchGroup == null ? 0 : Integer.parseInt(patchGroup);
     }
-
+    /**
+     * @see <a href="https://www.codewars.com/kata/5727bb0fe81185ae62000ae3">Backspaces in string</a>
+     * @param s
+     * @return
+     */
+    public static String cleanString(String s) {
+        while (s.contains("#")) {
+            s = s.replaceAll("[^#]#", "");
+            s = s.replaceAll("^#*", "");
+            System.out.println(s);
+        }
+        return s;
+    }
     /**
      * @see <a href="https://www.codewars.com/kata/56af1a20509ce5b9b000001e">Salesman's Travel</a>
      */
