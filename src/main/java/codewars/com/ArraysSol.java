@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
-public class Arrays {
+public class ArraysSol {
 
     public static Deque<Integer> deque = new ArrayDeque<>();
 
@@ -21,7 +21,7 @@ public class Arrays {
      */
     public static String rangeExtraction(int[] arr) {
         if (arr.length < 3)
-            return java.util.Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.joining());
+            return Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.joining());
         int i = 0;
         List<String> res = new ArrayList<>();
         while (i < arr.length) {
@@ -75,7 +75,7 @@ public class Arrays {
                 result.add(new long[] {square, remainder});
             }
         }
-        result.forEach(s -> System.out.println(java.util.Arrays.toString(s)));
+        result.forEach(s -> System.out.println(Arrays.toString(s)));
         return result;
     }
 
@@ -85,8 +85,8 @@ public class Arrays {
      *     </a>
      */
     public static int sumIntervals(int[][] intervals) {
-        // Arrays.sort(intervals, Comparator.comparing(a -> a[0]));
-        // Arrays.sort(intervals, (a, b) -> Integer.compare(b[1], a[1]));
+        // ArraysSol.sort(intervals, Comparator.comparing(a -> a[0]));
+        // ArraysSol.sort(intervals, (a, b) -> Integer.compare(b[1], a[1]));
         Comparator<int[]> comparator =
                 (o1, o2) -> {
                     if (o1[0] == o2[0]) {
@@ -94,8 +94,8 @@ public class Arrays {
                     }
                     return Integer.compare(o1[0], o2[0]);
                 };
-        var sorted = java.util.Arrays.stream(intervals).sorted(comparator).toArray(int[][]::new);
-        System.out.println(java.util.Arrays.deepToString(sorted));
+        var sorted = Arrays.stream(intervals).sorted(comparator).toArray(int[][]::new);
+        System.out.println(Arrays.deepToString(sorted));
 
         for (int i = 0; i < sorted.length - 1; i++) {
             if (sorted[i][1] >= sorted[i + 1][0]) {
@@ -111,10 +111,10 @@ public class Arrays {
                 }
             }
         }
-        System.out.println(java.util.Arrays.deepToString(sorted));
+        System.out.println(Arrays.deepToString(sorted));
 
         var intervalLength =
-                java.util.Arrays.stream(sorted)
+                Arrays.stream(sorted)
                         .filter(s -> !(s[0] == 0 && s[1] == 0))
                         .mapToInt(s -> Math.abs(s[1] - s[0]))
                         .sum();
@@ -140,8 +140,8 @@ public class Arrays {
      *     </a>
      */
     static int find(int[] integers) {
-        boolean find = java.util.Arrays.stream(integers).map(x -> x & 1).limit(3).sum() < 2;
-        return java.util.Arrays.stream(integers).filter(x -> (x & 1) == (find ? 1 : 0)).findFirst().getAsInt();
+        boolean find = Arrays.stream(integers).map(x -> x & 1).limit(3).sum() < 2;
+        return Arrays.stream(integers).filter(x -> (x & 1) == (find ? 1 : 0)).findFirst().getAsInt();
     }
 
     /**
@@ -152,8 +152,8 @@ public class Arrays {
     public static String convertFractions(long[][] lst) {
         if (lst.length == 0) return "";
         simplify(lst);
-        System.out.println(java.util.Arrays.deepToString(lst));
-        var max = java.util.Arrays.stream(lst).mapToLong(x -> x[1]).max().getAsLong();
+        System.out.println(Arrays.deepToString(lst));
+        var max = Arrays.stream(lst).mapToLong(x -> x[1]).max().getAsLong();
         int i = 1;
         while (true) {
             boolean flag = true;
@@ -166,7 +166,7 @@ public class Arrays {
 
         long denominator = i * max;
         System.out.println(denominator + " - общий знаменатель");
-        return java.util.Arrays.stream(lst)
+        return Arrays.stream(lst)
                 .map(
                         x -> String.format("(%d,%d)", x[0] * (denominator / x[1]), x[1] * (denominator / x[1])))
                 .collect(Collectors.joining());
@@ -232,7 +232,7 @@ public class Arrays {
 
     public static int greedy(int[] dice) {
         var map =
-                java.util.Arrays.stream(dice)
+                Arrays.stream(dice)
                         .boxed()
                         .collect(Collectors.toMap(Function.identity(), s -> 1, Integer::sum));
         int res = 0;
@@ -256,8 +256,8 @@ public class Arrays {
      */
     public static int getLengthOfMissingArray(Object[][] arrayOfArrays) {
         if (arrayOfArrays == null || arrayOfArrays.length == 0) return 0;
-        if (java.util.Arrays.stream(arrayOfArrays).anyMatch(a -> a == null || a.length == 0)) return 0;
-        var sorted = java.util.Arrays.stream(arrayOfArrays).mapToInt(a -> a.length).sorted().toArray();
+        if (Arrays.stream(arrayOfArrays).anyMatch(a -> a == null || a.length == 0)) return 0;
+        var sorted = Arrays.stream(arrayOfArrays).mapToInt(a -> a.length).sorted().toArray();
         for (int i = 0; i < sorted.length - 1; i++) {
             if (sorted[i] != sorted[i + 1] - 1) return sorted[i] + 1;
         }
@@ -272,7 +272,7 @@ public class Arrays {
      */
     public static int[] sumParts(int[] ls) {
         int[] res = new int[ls.length + 1];
-        int sum = java.util.Arrays.stream(ls).sum();
+        int sum = Arrays.stream(ls).sum();
         for (int i = 0; i < ls.length; i++) {
             res[i] = sum;
             sum -= ls[i];
@@ -399,11 +399,11 @@ public class Arrays {
      */
     public static int[] swap(int[] arr, int indexA, int indexB) {
         arr[indexA] ^= arr[indexB];
-        System.out.println(java.util.Arrays.toString(arr));
+        System.out.println(Arrays.toString(arr));
         arr[indexB] ^= arr[indexA];
-        System.out.println(java.util.Arrays.toString(arr));
+        System.out.println(Arrays.toString(arr));
         arr[indexA] ^= arr[indexB];
-        System.out.println(java.util.Arrays.toString(arr));
+        System.out.println(Arrays.toString(arr));
         return arr;
     }
 }
